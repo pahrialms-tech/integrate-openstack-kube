@@ -229,9 +229,11 @@ $ docker build -t kuryr/cni -f cni.Dockerfile .
 ```
 docker pull mstock14/kuryr:cni-u
 docker tag mstock14/kuryr:cni-u kuryr/cni:latest
+docker image rmi mstock14/kuryr:cni-u -f
 
 docker pull mstock14/kuryr:controller-u
-docker tag mstock14/kuryr:controller-u kuryr/controller
+docker tag mstock14/kuryr:controller-u kuryr/controller:latest
+docker image rmi mstock14/kuryr:controller-u -f
 ```
 ### Copy image kuryr controller and cni to node master and worker 
 ### 2. Create configuration kuryr controller
