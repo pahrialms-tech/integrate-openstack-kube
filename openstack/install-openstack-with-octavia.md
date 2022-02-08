@@ -100,6 +100,11 @@ enable_cinder: "yes"
 enable_cinder_backend_lvm: "yes"
 ...
 ```
+confirmation global.yml config
+```
+cat /etc/kolla/globals.yml | grep -v "#" |  tr -s [:space:]
+```
+
 ### 13. Create cinder-volumes VG
 
 Create physical volume (PV)
