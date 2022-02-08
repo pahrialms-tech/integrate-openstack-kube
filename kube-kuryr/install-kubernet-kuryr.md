@@ -228,7 +228,10 @@ $ docker build -t kuryr/cni -f cni.Dockerfile .
 **pull image kuryr on my docker hub**
 ```
 docker pull mstock14/kuryr:cni-u
+docker tag mstock14/kuryr:cni-u kuryr/cni:latest
+
 docker pull mstock14/kuryr:controller-u
+docker tag mstock14/kuryr:controller-u kuryr/controller
 ```
 ### Copy image kuryr controller and cni to node master and worker 
 ### 2. Create configuration kuryr controller
