@@ -129,6 +129,20 @@ openstack network trunk create --parent-port k8s-master3-port trunk-k8s-master3
 openstack network trunk create --parent-port k8s-worker1-port trunk-k8s-worker1
 openstack network trunk create --parent-port k8s-worker2-port trunk-k8s-worker2
 ```
-### 15. 
+### 15. Create security group for instance
+```
+openstack security group create sec-k8s-group
+openstack security group rule create --remote-ip 0.0.0.0/0 --ethertype IPv4 --protocol tcp sec-k8s-group
+openstack security group rule create --remote-ip 0.0.0.0/0 --ethertype IPv4 --protocol udp sec-k8s-group
+openstack security group rule create --protocol icmp sec-k8s-group
+```
+### 16. Create security group for service and pod access
+```
+openstack security group create service_pod_access_sg
+openstack security group rule create --remote-ip 192.168.1.0/24 --ethertype IPv4 --protocol tcp service_pod_access_sg
+openstack security group rule create --remote-ip 10.2.0.0/16 --ethertype IPv4 --protocol tcp service_pod_access_sg
+openstack security group rule create --remote-ip 10.1.0.0/16 --ethertype IPv4 --protocol tcp service_pod_access_sg
+```
+
 
 
