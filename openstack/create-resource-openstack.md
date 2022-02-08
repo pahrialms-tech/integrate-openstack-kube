@@ -85,9 +85,9 @@ nano /etc/kolla/support-openrc.sh
 for key in $( set | awk '{FS="="}  /^OS_/ {print $1}' ); do unset $key ; done
 export OS_PROJECT_DOMAIN_NAME=Default
 export OS_USER_DOMAIN_NAME=Default
-export OS_PROJECT_NAME=service
-export OS_TENANT_NAME=service
-export OS_USERNAME=kuryr
+export OS_PROJECT_NAME=kuryr
+export OS_TENANT_NAME=kuryr
+export OS_USERNAME=support
 export OS_PASSWORD=123
 export OS_AUTH_URL=http://10.20.30.100:35357/v3
 export OS_INTERFACE=internal
@@ -113,36 +113,49 @@ openstack image create --container-format bare --disk-format raw --file bionic-s
 ```
 openstack flavor create --disk 15 --ram 4086 --vcpus 2 medium
 ```
-### 13. Create port for instance
-```
-openstack port create --network internal-network --fixed-ip ip-address=192.168.1.11 k8s-master1-port
-openstack port create --network internal-network --fixed-ip ip-address=192.168.1.12 k8s-master2-port
-openstack port create --network internal-network --fixed-ip ip-address=192.168.1.13 k8s-master3-port
-openstack port create --network internal-network --fixed-ip ip-address=192.168.1.14 k8s-worker1-port
-openstack port create --network internal-network --fixed-ip ip-address=192.168.1.15 k8s-worker2-port
-```
-### 14. Create trunk with parent port previosly created
-```
-openstack network trunk create --parent-port k8s-master1-port trunk-k8s-master1
-openstack network trunk create --parent-port k8s-master2-port trunk-k8s-master2
-openstack network trunk create --parent-port k8s-master3-port trunk-k8s-master3
-openstack network trunk create --parent-port k8s-worker1-port trunk-k8s-worker1
-openstack network trunk create --parent-port k8s-worker2-port trunk-k8s-worker2
-```
-### 15. Create security group for instance
+### 13. Create security group for instance
 ```
 openstack security group create sec-k8s-group
 openstack security group rule create --remote-ip 0.0.0.0/0 --ethertype IPv4 --protocol tcp sec-k8s-group
 openstack security group rule create --remote-ip 0.0.0.0/0 --ethertype IPv4 --protocol udp sec-k8s-group
 openstack security group rule create --protocol icmp sec-k8s-group
 ```
-### 16. Create security group for service and pod access
+### 14. Create security group for service and pod access
 ```
 openstack security group create service_pod_access_sg
 openstack security group rule create --remote-ip 192.168.1.0/24 --ethertype IPv4 --protocol tcp service_pod_access_sg
 openstack security group rule create --remote-ip 10.2.0.0/16 --ethertype IPv4 --protocol tcp service_pod_access_sg
 openstack security group rule create --remote-ip 10.1.0.0/16 --ethertype IPv4 --protocol tcp service_pod_access_sg
 ```
-
-
-
+### 15. Create port for instance
+```
+openstack port create --network internal-network --fixed-ip ip-address=192.168.1.11 --security-group sec-k8s-group k8s-master1-port
+openstack port create --network internal-network --fixed-ip ip-address=192.168.1.12 --security-group sec-k8s-group k8s-master2-port
+openstack port create --network internal-network --fixed-ip ip-address=192.168.1.13 --security-group sec-k8s-group k8s-master3-port
+openstack port create --network internal-network --fixed-ip ip-address=192.168.1.14 --security-group sec-k8s-group k8s-worker1-port
+openstack port create --network internal-network --fixed-ip ip-address=192.168.1.15 --security-group sec-k8s-group k8s-worker2-port
+openstack port create --network internal-network --fixed-ip ip-address=192.168.1.100 --security-group sec-k8s-group k8s-vrrp
+```
+### 16. Create trunk with parent port previosly created
+```
+openstack network trunk create --parent-port k8s-master1-port trunk-k8s-master1
+openstack network trunk create --parent-port k8s-master2-port trunk-k8s-master2
+openstack network trunk create --parent-port k8s-master3-port trunk-k8s-master3
+openstack network trunk create --parent-port k8s-worker1-port trunk-k8s-worker1
+openstack network trunk create --parent-port k8s-worker2-port trunk-k8s-worker2
+openstack network trunk create --parent-port k8s-vrrp trunk-k8s-vrrp
+```
+### 17. Allow port VRRP to instance master
+```
+openstack port set --allowed-address ip-address=192.168.1.100 k8s-master1-port
+openstack port set --allowed-address ip-address=192.168.1.100 k8s-master2-port
+openstack port set --allowed-address ip-address=192.168.1.100 k8s-master3-port
+```
+### 18. Create instance master and worker
+```
+openstack server create --port k8s-master1-port --image ubuntu1804 --flavor medium --key-name key-nya k8s-master1
+openstack server create --port k8s-master2-port --image ubuntu1804 --flavor medium --key-name key-nya k8s-master2
+openstack server create --port k8s-master3-port --image ubuntu1804 --flavor medium --key-name key-nya k8s-master3
+openstack server create --port k8s-worker1-port --image ubuntu1804 --flavor medium --key-name key-nya k8s-worker1
+openstack server create --port k8s-worker2-port --image ubuntu1804 --flavor medium --key-name key-nya k8s-worker2
+```
