@@ -1,13 +1,7 @@
 Integration Openstack Kubernet with kuryr
 
-0. Pre-Deploy Openstack 
-1. Deploy Openstack 
-2. Setting Trunk Openstack
-3. Deploy Octavia
-4. Create resource instance 
-5. Create resource kuryr-kubernetes
-6. Launch Instance 
-7. Pre-deploy kubernetes
-8. Deploy kubernetes
-9. Deploy kuryr-kubernetes
-10. test 
+1. [Pre-Deploy Openstack](https://github.com/pahrialms-tech/integrate-openstack-kube/blob/main/openstack/preparation.md) 
+2. [Deploy Openstack with octavia](https://github.com/pahrialms-tech/integrate-openstack-kube/blob/main/openstack/install-openstack-with-octavia.md) 
+3. [Create Resource Openstack](https://github.com/pahrialms-tech/integrate-openstack-kube/blob/main/openstack/create-resource-openstack.md)
+4. [Deploy kubernetes-kuryr](https://github.com/pahrialms-tech/integrate-openstack-kube/blob/main/kube-kuryr/install-kubernet-kuryr.md)
+5. [Test](https://github.com/pahrialms-tech/integrate-openstack-kube/blob/main/kube-kuryr/testing.md)
