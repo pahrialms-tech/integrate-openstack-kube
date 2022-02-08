@@ -113,7 +113,22 @@ openstack image create --container-format bare --disk-format raw --file bionic-s
 ```
 openstack flavor create --disk 15 --ram 4086 --vcpus 2 medium
 ```
-### 13. 
-
+### 13. Create port for instance
+```
+openstack port create --network internal-network --fixed-ip ip-address=192.168.1.11 k8s-master1-port
+openstack port create --network internal-network --fixed-ip ip-address=192.168.1.12 k8s-master2-port
+openstack port create --network internal-network --fixed-ip ip-address=192.168.1.13 k8s-master3-port
+openstack port create --network internal-network --fixed-ip ip-address=192.168.1.14 k8s-worker1-port
+openstack port create --network internal-network --fixed-ip ip-address=192.168.1.15 k8s-worker2-port
+```
+### 14. Create trunk with parent port previosly created
+```
+openstack network trunk create --parent-port k8s-master1-port trunk-k8s-master1
+openstack network trunk create --parent-port k8s-master2-port trunk-k8s-master2
+openstack network trunk create --parent-port k8s-master3-port trunk-k8s-master3
+openstack network trunk create --parent-port k8s-worker1-port trunk-k8s-worker1
+openstack network trunk create --parent-port k8s-worker2-port trunk-k8s-worker2
+```
+### 15. 
 
 
