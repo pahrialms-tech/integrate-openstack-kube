@@ -273,6 +273,8 @@ octavia_amp_flavor_id: "8b266c5a-d70a-4f45-b1e0-9ad02f7b5ae5" ## ID Default Flav
 ```
 ### 26. Change Octavia Health Manager Config
 ```
+vi nano /etc/kolla/config/octavia.conf
+...
 [health_manager]
 bind_ip = 172.16.0.2
 controller_ip_port_list = 172.16.0.2:5555
