@@ -1,78 +1,4 @@
-### 1. Create external network and external subnet 
-```
-openstack network create \
---external \
---share \
---provider-network-type flat \
---provider-physical-network physnet1 \
-external-network
-
-openstack  subnet create \
---subnet-range 10.50.50.0/24 \
---no-dhcp \
---gateway 10.50.50.1 \
---dns-nameserver 10.50.50.1 \
---allocation-pool start=10.50.50.11,end=10.50.50.100 \
---network external-network \
-external-subnet
-```
-### 2. Create internal network and internal subnet 
-```
-openstack  network create \
-internal-network
-
-openstack subnet create \
---subnet-range 192.168.1.0/24 \
---network internal-network \
-internal-subnet
-```
-### 3. Create pod network and pod subnet
-```
-openstack network create pod
-
-openstack subnet create --network pod --no-dhcp \
---gateway 10.1.255.254 \
---subnet-range 10.1.0.0/16 \
-pod_subnet
-```
-### 4. Create service network and service subnet, We reserve the first half of the subnet range for the VIPs and the second half for the loadbalancer vrrp ports
-```
-openstack network create services
-
-openstack subnet create --network services --no-dhcp \
---gateway 10.2.255.254 \
---ip-version 4 \
---allocation-pool start=10.2.128.1,end=10.2.255.253 \
---subnet-range 10.2.0.0/16 \
-service_subnet
-```
-### 5. Create router
-```
-openstack  router create router1
-```
-### 6. Create router ports in the internal, pod and service subnets
-```
-openstack port create --network internal-network --fixed-ip ip-address=192.168.1.1 internal_subnet_router
-
-openstack port create --network pod --fixed-ip ip-address=10.1.255.254 pod_subnet_router
-
-openstack port create --network services --fixed-ip ip-address=10.2.255.254 service_subnet_router
-```
-### 7. Set external gateway for router
-```
-openstack  router set \
---external-gateway external-network \
-router1
-```
-### 8. Add the router to the internal, service and the pod subnets
-```
-openstack router add port router1 internal_subnet_router
-
-openstack router add port router1 pod_subnet_router
-
-openstack router add port router1 service_subnet_router
-```
-### 9. Create new project and user 
+### 1. Create new project and user 
 ```
 openstack project create kuryr
 
@@ -98,6 +24,81 @@ export OS_AUTH_PLUGIN=password
 ...
 
 source /etc/kolla/support-openrc.sh
+```
+
+### 2. Create external network and external subnet 
+```
+openstack network create \
+--external \
+--share \
+--provider-network-type flat \
+--provider-physical-network physnet1 \
+external-network
+
+openstack  subnet create \
+--subnet-range 10.50.50.0/24 \
+--no-dhcp \
+--gateway 10.50.50.1 \
+--dns-nameserver 10.50.50.1 \
+--allocation-pool start=10.50.50.11,end=10.50.50.100 \
+--network external-network \
+external-subnet
+```
+### 3. Create internal network and internal subnet 
+```
+openstack  network create \
+internal-network
+
+openstack subnet create \
+--subnet-range 192.168.1.0/24 \
+--network internal-network \
+internal-subnet
+```
+### 4. Create pod network and pod subnet
+```
+openstack network create pod
+
+openstack subnet create --network pod --no-dhcp \
+--gateway 10.1.255.254 \
+--subnet-range 10.1.0.0/16 \
+pod_subnet
+```
+### 5. Create service network and service subnet, We reserve the first half of the subnet range for the VIPs and the second half for the loadbalancer vrrp ports
+```
+openstack network create services
+
+openstack subnet create --network services --no-dhcp \
+--gateway 10.2.255.254 \
+--ip-version 4 \
+--allocation-pool start=10.2.128.1,end=10.2.255.253 \
+--subnet-range 10.2.0.0/16 \
+service_subnet
+```
+### 6. Create router
+```
+openstack  router create router1
+```
+### 7. Create router ports in the internal, pod and service subnets
+```
+openstack port create --network internal-network --fixed-ip ip-address=192.168.1.1 internal_subnet_router
+
+openstack port create --network pod --fixed-ip ip-address=10.1.255.254 pod_subnet_router
+
+openstack port create --network services --fixed-ip ip-address=10.2.255.254 service_subnet_router
+```
+### 8. Set external gateway for router
+```
+openstack  router set \
+--external-gateway external-network \
+router1
+```
+### 9. Add the router to the internal, service and the pod subnets
+```
+openstack router add port router1 internal_subnet_router
+
+openstack router add port router1 pod_subnet_router
+
+openstack router add port router1 service_subnet_router
 ```
 ### 10. Create keypair 
 ```
@@ -151,7 +152,16 @@ openstack port set --allowed-address ip-address=192.168.1.100 k8s-master1-port
 openstack port set --allowed-address ip-address=192.168.1.100 k8s-master2-port
 openstack port set --allowed-address ip-address=192.168.1.100 k8s-master3-port
 ```
-### 18. Create instance master and worker
+### 18. Create floating ip and associate to port 
+```
+openstack floating ip create --floating-ip 10.50.50.11 --port k8s-master1-port
+openstack floating ip create --floating-ip 10.50.50.12 --port k8s-master2-port
+openstack floating ip create --floating-ip 10.50.50.13 --port k8s-master3-port
+openstack floating ip create --floating-ip 10.50.50.14 --port k8s-worker1-port
+openstack floating ip create --floating-ip 10.50.50.15 --port k8s-worker2-port
+openstack floating ip create --floating-ip 10.50.50.100 --port k8s-vrrp
+```
+### 19. Create instance master and worker
 ```
 openstack server create --port k8s-master1-port --image ubuntu1804 --flavor medium --key-name key-nya k8s-master1
 openstack server create --port k8s-master2-port --image ubuntu1804 --flavor medium --key-name key-nya k8s-master2
