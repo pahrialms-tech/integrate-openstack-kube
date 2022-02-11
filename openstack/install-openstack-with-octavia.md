@@ -286,4 +286,16 @@ controller_ip_port_list = 172.16.0.2:5555
 ```
 kolla-ansible reconfigure -t octavia
 ```
-
+### 28. Check service Openstack
+```
+openstack endpoint list
+```
+### 29. Check octavia service with create loadbalancer
+openstack loadbalancer must be ACTIVE and ONLINE ,if the loadbalancer status is still in an error state, you can see the log in docker container
+```
+openstack loadbalancer create --name lb1 --vip-subnet-id public-subnet
+```
+Re-run the following until lb1 shows ACTIVE and ONLINE statuses:
+```
+openstack loadbalancer show lb1
+```
