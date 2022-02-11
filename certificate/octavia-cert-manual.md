@@ -1,4 +1,7 @@
 # Creating certificate authority octavia  
+
+You must create certificate manually for powerfull configuration.
+
 Run this instruction on all controller node
 
 ## 1. Create Working Directory  
