@@ -1,7 +1,9 @@
-# Install Openstack Ussuri with octavia
-After all the [preparations](https://github.com/pahrialms-tech/integrate-openstack-kube/blob/main/openstack/preparation.md) are complete, now we try to install the multi-node OpenStack cluster with Kolla-ansible according to the existing topology
+# Install Openstack Ussuri and Octavia with Kolla-Ansible
+After all the [preparations](https://github.com/pahrialms-tech/integrate-openstack-kube/blob/main/openstack/preparation.md) are complete, now we try to install the multi-node OpenStack cluster with Kolla-ansible according to the existing topology.
 
-Run command below only on the controller node
+**Via Kolla-Ansible, Still Difficult**, Setting up Octavia has been an ordeal, and deserves its own page. There are many issues with the default installation not explained in docs, not captured in Ansible, and some misdocumented things, also.So that **you must be carefull !!**.
+
+Run command below **only on the controller node**
 
 ### 1. Update repository
 ```
