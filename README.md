@@ -31,3 +31,8 @@ Kubernetes Nodes
 3. [Create Resource Openstack](https://github.com/pahrialms-tech/integrate-openstack-kube/blob/main/openstack/create-resource-openstack.md)
 4. [Deploy kubernetes-kuryr](https://github.com/pahrialms-tech/integrate-openstack-kube/blob/main/kube-kuryr/install-kubernet-kuryr.md)
 5. [Test](https://github.com/pahrialms-tech/integrate-openstack-kube/blob/main/kube-kuryr/testing.md)
+
+## Topology
+
+![image](https://user-images.githubusercontent.com/99278834/153577762-768ce277-653e-4c12-947f-c3218c7f67c9.png)
+
