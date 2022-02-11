@@ -18,7 +18,7 @@ Kubernetes Nodes
  - Ubuntu based
  - Kubernetes (kubelet, kubectl, kubeadm)
  - Pod Network 10.1.0.0/16
- - Service Network 10.2.0.0/17
+ - Service Network 10.2.0.0/16
 
 ## Integration Openstack Kubernet with kuryr Installation
 
