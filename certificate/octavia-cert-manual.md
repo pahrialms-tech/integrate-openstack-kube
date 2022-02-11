@@ -201,7 +201,3 @@ cp server_ca/private/ca.key.pem /etc/kolla/config/octavia/server_ca.key.pem
 cp client_ca/private/client.cert-and-key.pem /etc/kolla/config/octavia/client.cert-and-key.pem
 cd ~
 ```
-
-
-
-
