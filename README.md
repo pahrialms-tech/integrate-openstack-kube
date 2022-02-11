@@ -2,8 +2,12 @@
 
 The OpenStack Kuryr project enables native Neutron-based networking in Kubernetes. With Kuryr-Kubernetes it's now possible to choose to run both OpenStack VMs and Kubernetes Pods on the same Neutron network if your workloads require it or to use different segments and, for example, route between them.
 
+This tutorial is for the nested installation method , where does kuryr cni work in kubernetes pod.
+document references :
+ - https://docs.openstack.org/kuryr-kubernetes/latest/installation/containerized.html
+
 ## Prerequities
-I used 7 nodes for OpenStack and Kubernetes cluster, and use 2 network interface each node.
+I used 8 nodes for OpenStack and Kubernetes cluster, and use 2 network interface each node. 
 
 OpenStack Nodes
  - 1 Controller Node
