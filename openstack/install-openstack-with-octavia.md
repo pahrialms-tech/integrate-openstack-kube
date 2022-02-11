@@ -108,6 +108,7 @@ cat /etc/kolla/globals.yml | grep -v "#" |  tr -s [:space:]
 ```
 
 ### 13. Create cinder-volumes VG
+**only step 13 , exec in node with attached volume**
 
 Create physical volume (PV)
 ```
