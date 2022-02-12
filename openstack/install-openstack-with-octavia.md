@@ -299,3 +299,25 @@ Re-run the following until lb1 shows ACTIVE and ONLINE statuses:
 openstack loadbalancer show lb1
 ```
 openstack loadbalancer must be ACTIVE and ONLINE,if the loadbalancer status is still in an error state, you can see the log in docker container
+
+```
+docker exec -it <container-ID> /bin/bash
+tail -f /var/log/octavia/octavia-server.log
+```
+### 30. Enabling openstack trunk feature
+
+```
+sudo nano /etc/kolla/neutron-server/neutron.conf
+[DEFAULT]
+.......
+service_plugins = router, trunk
+.......
+
+```
+restart neutron docker container 
+```
+sudo docker restart neutron_server
+```
+
+
+
