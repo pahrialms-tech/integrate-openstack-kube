@@ -86,7 +86,7 @@ emailAddress                    = Email Address
 
 # Optionally, specify some defaults.
 countryName_default             = ID
-stateOrProvinceName_default     = Bogor
+stateOrProvinceName_default     = Jakarta
 localityName_default            =
 0.organizationName_default      = OpenStack
 organizationalUnitName_default  = Octavia
