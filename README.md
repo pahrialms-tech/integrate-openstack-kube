@@ -7,7 +7,7 @@ document references :
  - https://docs.openstack.org/kuryr-kubernetes/latest/installation/containerized.html
 
 ## Prerequities
-I used 8 nodes for OpenStack and Kubernetes cluster, and use 2 network interface each node. 
+I used 3 nodes for OpenStack and Kubernetes cluster, and use 2 network interface each node. 
 
 OpenStack Nodes
  - 1 Controller Node
