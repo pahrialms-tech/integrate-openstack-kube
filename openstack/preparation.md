@@ -41,5 +41,5 @@ usermod -aG sudo <username>
 ```
 ### Enable sudo without password
 ```
-echo "<username> ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/<username>
+echo "<username> ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/<username>
 ```
