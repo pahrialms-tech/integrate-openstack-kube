@@ -37,7 +37,7 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub student@compute2
 
 ### Register user to sudo group
 ```
-usermod -aG sudo <username>
+sudo usermod -aG sudo <username>
 ```
 ### Enable sudo without password
 ```
